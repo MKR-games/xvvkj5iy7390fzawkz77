@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#E8E4D8">
+  <meta name="color-scheme" content="light">
+  <meta name="robots" content="noindex,nofollow,noarchive,nosnippet">
+  <title>똑... 똑... 똑... | 게임 설명서</title>
+  <meta name="description" content="5인용 GM 없는 머더 미스터리 《똑... 똑... 똑...》 공개용 모바일 게임 설명서">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="character-return" id="characterReturn" href="../index.html?from=guide" aria-label="민도겸 설정서로 돌아가기">← 민도겸 설정서로 돌아가기</a>
+  <div class="scroll-progress" aria-hidden="true"><div class="scroll-progress__bar" id="scrollProgress"></div></div>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <div class="brand"><span class="brand__eyebrow">MURDER MYSTERY</span><h1 class="brand__title">똑... 똑... 똑... · 게임 설명서</h1></div>
+      <div class="header-actions" aria-label="읽기 설정">
+        <button class="icon-button" id="fontDown" type="button" aria-label="글자 크기 줄이기">가−</button>
+        <button class="icon-button" id="fontUp" type="button" aria-label="글자 크기 키우기">가＋</button>
+        <button class="icon-button" id="menuToggle" type="button" aria-expanded="false" aria-controls="quickNav">목차</button>
+      </div>
+    </div>
+  </header>
+  <nav class="quick-nav" id="quickNav" aria-label="빠른 이동"><a href="#murder-mystery">머더 미스터리란?</a>
+<a href="#overview">게임 개요</a>
+<a href="#content-note">소재 안내</a>
+<a href="#components">구성물</a>
+<a href="#setup">게임 준비</a>
+<a href="#story">이야기의 배경</a>
+<a href="#characters">담당 캐릭터 결정</a>
+<a href="#cards">카드와 조사 준비</a>
+<a href="#flow">전체 게임 흐름</a>
+<a href="#opening">오프닝</a>
+<a href="#act-one">제1막 조사·논의</a>
+<a href="#act-two">제2막 조사·논의</a>
+<a href="#remaining">남은 카드</a>
+<a href="#deduction-vote">최종 추리와 투표</a>
+<a href="#ending-score">엔딩과 점수</a>
+<a href="#important-rules">진행 중 주의사항</a></nav>
+  <main class="page-shell">
+    <section class="manual-hero">
+      <span class="manual-hero__badge">5인 전용 · GM 없음</span>
+      <p class="manual-hero__eyebrow">OFFICIAL GAME MANUAL</p>
+      <h2>똑...<br>똑...<br>똑...</h2>
+      <p class="manual-hero__subtitle">게임 준비부터 조사, 최종 추리, 투표와 엔딩 확인까지 순서대로 안내합니다.</p>
+      <div class="manual-summary">
+        <div><span>플레이 인원</span><strong>5명</strong></div>
+        <div><span>예상 시간</span><strong>약 90분</strong></div>
+        <div><span>진행 방식</span><strong>GM 없음</strong></div>
+      </div>
+    </section>
+    <section class="manual-tools" aria-label="설명서 도구">
+      <label class="search-box" for="manualSearch"><span>설명서 검색</span><input id="manualSearch" type="search" placeholder="예: 제2막, 소지품, 동률"></label>
+      <div class="tool-buttons"><button id="expandAll" type="button">전체 펼치기</button><button id="collapseAll" type="button">전체 접기</button></div>
+      <p class="search-status" id="searchStatus" aria-live="polite"></p>
+    </section>
+    <section class="important-note">
+      <strong>플레이어 공개용 · 스포일러 없음</strong>
+      <p>캐릭터별 행동, 소지품의 실제 내용, 핵심 비밀, 사건의 진상은 이 설명서에 포함되어 있지 않습니다.</p>
+    </section>
+    <div id="manualSections">
+      <article class="manual-section" id="murder-mystery">
+        <button class="section-toggle" type="button" aria-expanded="true" aria-controls="murder-mystery-content">
+          <span class="section-number">01</span>
+          <span class="section-title-group">
+            <span class="section-kicker">BEFORE PLAY</span>
+            <span class="section-title">머더 미스터리란?</span>
+          </span>
+          <span class="toggle-mark" aria-hidden="true">−</span>
+        </button>
+        <div class="section-content" id="murder-mystery-content">
+          <div class="prose">
+        <p>머더 미스터리는 플레이어가 사건의 관계자가 되어, 서로 다른 정보와 비밀을 바탕으로 사망 사건의 진상을 추리하는 대화형 게임입니다.</p>
+        <p>각 플레이어는 진실을 밝히는 동시에 자신의 비밀과 목적을 지켜야 합니다. 침묵, 부인, 축소, 왜곡은 허용됩니다. 다만 아래의 경계는 지켜야 합니다.</p>
+        <ul class="manual-list">
+          <li>자신의 설정서에 적힌 사실을 숨기거나 다르게 말할 수 있습니다.</li>
+          <li>공개된 단서의 의미를 다르게 해석하거나 의심할 수 있습니다.</li>
+          <li>존재하지 않는 인물, 장소, 물건, 사건을 새로 만들어 낼 수 없습니다.</li>
+          <li>공개된 카드에 적힌 객관적 사실 자체를 없던 일이라고 주장할 수 없습니다.</li>
+          <li>설정서와 카드는 말로 설명할 수 있지만, 규칙이 허용한 경우 외에는 다른 사람에게 직접 보여줄 수 없습니다.</li>
+        </ul>
+        <div class="rule-callout">핵심은 말을 잘 꾸미는 데 있지 않습니다. 무엇을 말하고, 무엇을 숨기며, 다른 사람의 말과 단서를 어떻게 연결할지 판단하는 데 있습니다.</div></div>
+        </div>
+      </article>
+
+      <article class="manual-section" id="overview">
+        <button class="section-toggle" type="button" aria-expanded="true" aria-controls="overview-content">
+          <span class="section-number">02</span>
+          <span class="section-title-group">
+            <span class="section-kicker">OVERVIEW</span>
+            <span class="section-title">게임 개요</span>
+          </span>
+          <span class="toggle-mark" aria-hidden="true">−</span>
+        </button>
+        <div class="section-content" id="overview-content">
+          <div class="prose">
+        <p>《똑... 똑... 똑...》은 <strong>5인 전용, GM 없는</strong> 머더 미스터리입니다.</p>
+        <p>무대는 2000년대 초, 깊은 산속의 낡은 소형 수련원입니다. 플레이어들은 태권도장 수련회에 참가한 다섯 관계자가 되어, 검은 복도 끝 ‘닫힌 방’에서 발견된 김하준의 죽음을 추리해야 합니다.</p>
+        <p>이 사건에는 한 번의 악의만 있는 것이 아닙니다. 오해, 장난, 공포, 은폐, 침묵이 차례로 이어졌습니다. 누가 무엇을 했는지만이 아니라, 어떤 선택이 다음 선택을 불러왔는지 밝혀내세요.</p></div>
+        </div>
+      </article>
+
+      <article class="manual-section" id="content-note">
+        <button class="section-toggle" type="button" aria-expanded="true" aria-controls="content-note-content">
+          <span class="section-number">03</span>
+          <span class="section-title-group">
+            <span class="section-kicker">CONTENT NOTE</span>
+            <span class="section-title">소재 안내</span>
+          </span>
+          <span class="toggle-mark" aria-hidden="true">−</span>
+        </button>
+        <div class="section-content" id="content-note-content">
+          <div class="prose">
+        <p>모든 내용은 허구이며 실제 인물, 사건, 장소와 관련이 없습니다. 플레이 중 특정 소재가 불편하게 느껴질 경우, 플레이어끼리 잠시 멈추고 진행 방식을 조정해 주세요. 이 게임의 목적은 불편함을 견디게 하는 것이 아니라, 안전한 자리에서 허구의 사건을 함께 추리하는 것입니다.</p></div>
+        </div>
+      </article>
+
+      <article class="manual-section" id="components">
+        <button class="section-toggle" type="button" aria-expanded="true" aria-controls="components-content">
+          <span class="section-number">04</span>
+          <span class="section-title-group">
+            <span class="section-kicker">COMPONENTS</span>
+            <span class="section-title">구성물</span>
+          </span>
+          <span class="toggle-mark" aria-hidden="true">−</span>
+        </button>
+        <div class="section-content" id="components-content">
+          <div class="prose">
+        <ul class="manual-list">
+          <li>게임 설명서 1부 / 엔딩 북 1부</li>
+          <li>캐릭터 설정서 카드 15장: 캐릭터당 3장</li>
+          <li>캐릭터 카드 5장 / 개인 소지품 카드 5장</li>
+          <li>조사 카드 13장 / MAP 카드 1장 / 주석 카드 2장</li>
+        </ul>
+        <p>주석 카드는 확인하지 않을 카드 앞면이 실수로 노출되지 않도록 가리는 용도입니다.</p></div>
+        </div>
+      </article>
+
+      <article class="manual-section" id="setup">
+        <button class="section-toggle" type="button" aria-expanded="true" aria-controls="setup-content">
+          <span class="section-number">05</span>
+          <span class="section-title-group">
+            <span class="section-kicker">SETUP</span>
+            <span class="section-title">게임 준비</span>
+          </span>
+          <span class="toggle-mark" aria-hidden="true">−</span>
+        </button>
+        <div class="section-content" id="setup-content">
+          <div class="prose">
+        <ol class="numbered-list">
+          <li>이 설명서를 읽는 사람이 <strong>임시 진행자</strong>가 됩니다. 임시 진행자는 별도의 GM이 아니며, 다른 플레이어와 같은 조건으로 추리에 참여합니다.</li>
+          <li>임시 진행자는 ‘이야기의 배경’을 모두에게 읽어 줍니다. 이 부분은 공개 정보이며 게임 중 언제든 다시 확인할 수 있습니다.</li>
+          <li>다섯 명이 각자 담당할 캐릭터를 정합니다.</li>
+          <li>각 플레이어는 자신의 캐릭터 설정서 카드 3장, 캐릭터 카드 1장, 개인 소지품 카드 1장을 가져갑니다.</li>
+          <li>MAP 카드는 테이블 중앙에 앞면으로 놓습니다.</li>
+          <li>조사 카드 13장은 뒷면의 조사 장소가 모두 보이도록 중앙에 놓습니다. 조사 카드는 섞지 않습니다.</li>
+          <li>개인 소지품 카드는 소유자의 오른쪽에 뒷면으로 놓습니다. 카드 뒷면에서는 소유자만 확인할 수 있고, 내용은 보이지 않아야 합니다.</li>
+          <li>엔딩 북은 투표가 끝날 때까지 펼치지 않습니다.</li>
+        </ol></div>
+        </div>
+      </article>
+
+      <article class="manual-section" id="story">
+        <button class="section-toggle" type="button" aria-expanded="true" aria-controls="story-content">
+          <span class="section-number">06</span>
+          <span class="section-title-group">
+            <span class="section-kicker">READ ALOUD · 공개 정보</span>
+            <span class="section-title">이야기의 배경</span>
+          </span>
+          <span class="toggle-mark" aria-hidden="true">−</span>
+        </button>
+        <div class="section-content" id="story-content">
+          <div class="prose">
+        <div class="story">
+          <p>2000년대 초반.</p>
+          <p>한 태권도장의 고등부 수련생들이 1박 2일 수련회를 떠났다. 목적지는 깊은 산속의 낡은 소형 수련원이었다.</p>
+          <p>건물에는 오래 밴 먼지 냄새가 났다. 문은 열릴 때마다 짧게 울었다. 벽은 얇았다. 복도에서 끌리는 발소리가 방 안까지 기어들어 왔다.</p>
+          <p>원래라면 관리자가 남아 있어야 했다. 그날은 출장 중이었다. 관장 장태식은 자신이 임시 관리까지 맡겠다며 대관을 밀어붙였다.</p>
+          <p>수련원에 들어온 사람은 여섯 명뿐이었다. 관장 장태식. 사범 한유정. 수련생 강태민, 민도겸, 서은찬, 김하준.</p>
+          <p>건물 중앙에는 길고 어두운 복도가 있었다. 복도 끝에는 사용하지 않는 ‘닫힌 방’이 있었다. 문 바깥에는 무거운 걸쇠가 달려 있었다. 밖에서 걸쇠를 걸면, 안에서는 문을 열 수 없었다.</p>
+          <p>화장실은 건물 밖에 있었다. 밤중에 화장실을 가려면 검은 복도와 출입구를 지나 야외로 나가야 했다.</p>
+          <p>저녁 식사 때 장태식이 숟가락을 내려놓았다.</p>
+          <blockquote>“복도 끝 닫힌 방 있지? 관리인이 그러더라. 밤마다 그 안에서 노크 소리가 난다고. 똑, 똑, 똑. 딱 세 번씩. 안에는 귀신이 갇혀 있으니까, 무슨 소리가 나도 절대 열지 마라.”</blockquote>
+          <p>누군가는 웃었다. 누군가는 복도 끝을 돌아봤다. 괴담은 그 정도로 끝나는 듯했다.</p>
+          <p><strong>그날 밤.</strong></p>
+          <p class="story-knock" aria-label="똑. 똑. 똑.">똑. 똑. 똑.</p>
+          <p>다음 날 아침, 김하준이 사라졌다.</p>
+          <p>수련생방에도 없었다. 회의실에도, 야외 화장실에도 없었다. 남은 사람들은 끝내 검은 복도 끝에 섰다.</p>
+          <p>닫힌 방의 바깥 걸쇠는 잠겨 있었다. 걸쇠를 풀었다. 문이 열렸다.</p>
+          <p>김하준은 방 안쪽 바닥에 쓰러져 있었다. 몸은 차가웠다. 얼굴에는 마른 피가 남아 있었다. 머리 한쪽에는 둔한 물체에 맞은 듯한 상처가 보였다.</p>
+          <p>살아남은 다섯 사람은 회의실로 모였다. 아무도 서로에게 등을 보이지 않았다.</p>
+          <p>경찰을 불러야 했다. 유선전화는 연결음조차 잡히지 않았다. 휴대전화도 마찬가지였다. 시내까지 내려가야 신고할 수 있었다.</p>
+          <p>그전에 해야 할 일이 있었다. <strong>이 안에서 누가 무엇을 했는지 확인하는 것.</strong></p>
+          <p>장태식이 수련회 기록용 카세트 녹음기를 꺼냈다. 버튼이 눌렸다.</p>
+          <p><strong>철칵.</strong></p>
+          <blockquote>“어젯밤 일을 처음부터 말해. 나중에 말이 바뀌면 더 곤란해진다.”</blockquote>
+        </div></div>
+        </div>
+      </article>
+
+      <article class="manual-section" id="characters">
+        <button class="section-toggle" type="button" aria-expanded="false" aria-controls="characters-content">
+          <span class="section-number">07</span>
+          <span class="section-title-group">
+            <span class="section-kicker">CHARACTERS</span>
+            <span class="section-title">담당 캐릭터 결정</span>
+          </span>
+          <span class="toggle-mark" aria-hidden="true">+</span>
+        </button>
+        <div class="section-content" id="characters-content" hidden>
+          <div class="prose">
+        <p>아래 다섯 캐릭터 중 각자 한 명을 담당합니다. 희망 캐릭터가 겹치면 상의하여 정하고, 합의가 어렵다면 무작위로 정합니다.</p>
+        <ul class="manual-list">
+          <li><strong>강태민</strong> / 남성 / 18세 / 태권도장 수련생 / 분위기를 주도하는 고등부 수련생</li>
+          <li><strong>민도겸</strong> / 남성 / 18세 / 태권도장 수련생 / 중심 인물의 곁에서 조용히 분위기를 따르는 학생</li>
+          <li><strong>서은찬</strong> / 남성 / 17세 / 태권도장 수련생 / 불안이 많고 주변의 눈치를 빠르게 읽는 학생</li>
+          <li><strong>한유정</strong> / 여성 / 28세 / 태권도장 사범 / 수련생들을 가장 가까이에서 지도하는 사람</li>
+          <li><strong>장태식</strong> / 남성 / 45세 / 태권도장 관장 / 수련회와 시설 안전을 책임진 인솔자</li>
+        </ul></div>
+        </div>
+      </article>
+
+      <article class="manual-section" id="cards">
+        <button class="section-toggle" type="button" aria-expanded="false" aria-controls="cards-content">
+          <span class="section-number">08</span>
+          <span class="section-title-group">
+            <span class="section-kicker">CARD RULES</span>
+            <span class="section-title">카드와 조사 준비</span>
+          </span>
+          <span class="toggle-mark" aria-hidden="true">+</span>
+        </button>
+        <div class="section-content" id="cards-content" hidden>
+          <div class="prose">
+        <h3>캐릭터 설정서</h3><p>각 플레이어는 자신의 캐릭터 설정서 3장을 손에 들고 진행합니다. 설정서는 언제든 다시 읽을 수 있지만 다른 사람에게 직접 보여줄 수 없습니다.</p>
+        <h3>캐릭터 카드</h3><p>오프닝의 첫 진술을 읽을 때만 확인합니다. 첫 진술은 문장을 바꾸지 말고 그대로 읽습니다.</p>
+        <h3>개인 소지품 카드</h3><p>소유자만 언제든 확인할 수 있습니다. 다만 조사 대상으로 선택되기 전에는 카드 앞면을 공개하거나 다른 사람에게 보여줄 수 없습니다. 소지품의 내용을 말로 설명하거나 숨기거나 왜곡하는 것은 가능합니다.</p>
+        <h3>조사 카드</h3><p>뒷면에는 조사할 장소나 대상의 이름만 적혀 있고, 카드 내용은 앞면에만 있습니다. 섞지 않고 모든 플레이어가 원하는 조사 대상을 고를 수 있도록 펼쳐 놓습니다.</p>
+        <div class="rule-callout"><strong>조사 카드 13장 + 개인 소지품 카드 5장 = 조사 가능 카드 18장</strong></div></div>
+        </div>
+      </article>
+
+      <article class="manual-section" id="flow">
+        <button class="section-toggle" type="button" aria-expanded="false" aria-controls="flow-content">
+          <span class="section-number">09</span>
+          <span class="section-title-group">
+            <span class="section-kicker">GAME FLOW</span>
+            <span class="section-title">전체 게임 흐름</span>
+          </span>
+          <span class="toggle-mark" aria-hidden="true">+</span>
+        </button>
+        <div class="section-content" id="flow-content" hidden>
+          <div class="prose">
+        <div class="flow-box flow-box--timeline">
+          <span>오프닝 <strong>5분</strong></span><span class="flow-box__act-one">제1막 <strong>10분 × 5회</strong><small>총 50분 · 5회 모두 진행</small></span><span>제2막 <strong>15분</strong></span><span>최종 추리 <strong>5분</strong></span><span>투표 <strong>5분</strong></span><span>엔딩·점수</span>
+        </div>
+        <p>제한 시간은 긴장을 위한 기준입니다. 전원이 동의하면 조금 조정할 수 있습니다.</p></div>
+        </div>
+      </article>
+
+      <article class="manual-section" id="opening">
+        <button class="section-toggle" type="button" aria-expanded="false" aria-controls="opening-content">
+          <span class="section-number">10</span>
+          <span class="section-title-group">
+            <span class="section-kicker">OPENING · 5 MIN</span>
+            <span class="section-title">오프닝</span>
+          </span>
+          <span class="toggle-mark" aria-hidden="true">+</span>
+        </button>
+        <div class="section-content" id="opening-content" hidden>
+          <div class="prose">
+        <ol class="numbered-list">
+          <li>모두 자신의 캐릭터 설정서 3장을 조용히 읽습니다.</li>
+          <li>설정서의 원문은 다른 플레이어에게 보여주거나 그대로 낭독하지 않습니다.</li>
+          <li>설정서 확인이 끝나면 캐릭터 카드의 첫 진술을 순서대로 읽습니다.</li>
+          <li>첫 진술은 김하준의 시신이 발견된 직후, 각 인물이 녹음기 앞에서 한 공개 진술입니다. 문장을 바꾸지 않습니다.</li>
+          <li>모든 첫 진술이 끝나면 제1막 <strong>1회차</strong>를 시작합니다.</li>
+        </ol></div>
+        </div>
+      </article>
+
+      <article class="manual-section" id="act-one">
+        <button class="section-toggle" type="button" aria-expanded="false" aria-controls="act-one-content">
+          <span class="section-number">11</span>
+          <span class="section-title-group">
+            <span class="section-kicker">ACT 1 · 10 MIN × 5 ROUNDS · TOTAL 50 MIN</span>
+            <span class="section-title">제1막 조사·논의</span>
+          </span>
+          <span class="toggle-mark" aria-hidden="true">+</span>
+        </button>
+        <div class="section-content" id="act-one-content" hidden>
+          <div class="prose">
+        <div class="act-one-alert" role="note" aria-label="제1막 반복 진행 안내">
+          <strong>한 번만 진행하고 제2막으로 넘어가지 마세요.</strong>
+          <span>아래의 <b>10분짜리 조사·논의를 담당자를 바꾸며 총 5회 반복</b>합니다. 제1막 전체 시간은 총 50분입니다.</span>
+        </div>
+
+        <h3 class="step-heading">제1막 전체 5회차</h3>
+        <div class="round-repeat-grid" aria-label="제1막 1회차부터 5회차까지">
+          <div class="round-repeat-item"><strong>1회차</strong><span>10분</span></div>
+          <div class="round-repeat-item"><strong>2회차</strong><span>10분</span></div>
+          <div class="round-repeat-item"><strong>3회차</strong><span>10분</span></div>
+          <div class="round-repeat-item"><strong>4회차</strong><span>10분</span></div>
+          <div class="round-repeat-item"><strong>5회차</strong><span>10분</span></div>
+        </div>
+        <p class="round-repeat-caption">첫 조사 담당자를 정한 뒤, 매 회차가 끝날 때마다 시계 방향의 다음 플레이어가 담당합니다. 다섯 명 모두 한 번씩 담당해야 합니다.</p>
+
+        <h3 class="step-heading">한 회차 10분의 진행 순서</h3>
+        <ol class="round-flow-list">
+          <li><span class="flow-number" aria-hidden="true">1</span><span class="flow-text">이번 회차의 조사 담당자를 확인합니다.</span></li>
+          <li><span class="flow-number" aria-hidden="true">2</span><span class="flow-text">조사 담당자가 조사 가능 카드 2장을 선택합니다.</span></li>
+          <li><span class="flow-number" aria-hidden="true">3</span><span class="flow-text">선택한 두 카드를 즉시 전체 공개합니다.</span></li>
+          <li><span class="flow-number" aria-hidden="true">4</span><span class="flow-text">10분 중 남은 시간 동안 자유롭게 논의합니다.</span></li>
+          <li><span class="flow-number" aria-hidden="true">5</span><span class="flow-text">10분이 끝나면 다음 담당자로 바꾸어 새 회차를 시작합니다.</span></li>
+        </ol>
+        <p>각 조사 담당자는 아직 공개되지 않은 조사 가능 카드 2장을 고릅니다.</p>
+        <ul class="manual-list">
+          <li>조사 카드 2장을 선택할 수 있습니다.</li>
+          <li>조사 카드 1장과 다른 사람의 개인 소지품 카드 1장을 선택할 수 있습니다.</li>
+          <li>개인 소지품 카드 2장을 동시에 선택할 수 없습니다.</li>
+          <li>자신의 개인 소지품 카드는 선택할 수 없습니다.</li>
+        </ul>
+        <p>선택한 두 카드는 즉시 전체 공개합니다. 공개된 카드는 테이블 중앙에 앞면으로 놓고 누구나 다시 확인할 수 있게 둡니다.</p>
+        <p>카드 공개 뒤 남은 시간 동안 자유롭게 논의합니다. 공개 단서, 첫 진술, 서로의 말에 드러난 모순을 연결해 사건을 추리합니다.</p></div>
+        <div class="act-one-exit" role="note">
+          <strong>제2막으로 넘어가기 전 반드시 확인</strong>
+          <span>① 5회차까지 모두 종료&nbsp;&nbsp; ② 다섯 명 모두 조사 담당 완료&nbsp;&nbsp; ③ 공개 카드 총 10장</span>
+          <b>세 조건이 모두 충족되어야 제2막으로 이동합니다.</b>
+        </div>
+        </div>
+      </article>
+
+      <article class="manual-section" id="act-two">
+        <button class="section-toggle" type="button" aria-expanded="false" aria-controls="act-two-content">
+          <span class="section-number">12</span>
+          <span class="section-title-group">
+            <span class="section-kicker">ACT 2 · 15 MIN</span>
+            <span class="section-title">제2막 조사·논의</span>
+          </span>
+          <span class="toggle-mark" aria-hidden="true">+</span>
+        </button>
+        <div class="section-content" id="act-two-content" hidden>
+          <div class="prose">
+        <div class="rule-callout"><strong>제1막 5회차를 모두 마치고, 전체 공개 카드가 총 10장인지 확인한 뒤 제2막을 시작합니다.</strong></div>
+        <ol class="numbered-list">
+          <li>첫 조사 담당자부터 시계 방향으로 아직 확인되지 않은 조사 가능 카드 1장을 골라 자기 앞에 뒷면으로 가져옵니다.</li>
+          <li>앞선 플레이어가 가져간 카드는 다시 선택할 수 없습니다.</li>
+          <li>다섯 명의 선택이 모두 끝난 뒤, 각자 가져온 카드 앞면을 개인적으로 확인합니다.</li>
+          <li>가져온 카드는 전체 공개하거나 다른 플레이어에게 직접 보여줄 수 없습니다.</li>
+          <li>카드 내용을 말로 설명하는 것은 가능하며, 숨기거나 왜곡하거나 거짓말할 수도 있습니다.</li>
+        </ol>
+        <div class="rule-callout">다른 사람의 개인 소지품을 가져왔다면 원래 소유자도 내용을 알고 있습니다. 제2막 정보는 ‘선택한 사람만 아는 정보’가 아니라 <strong>전체에게 공개되지 않은 정보</strong>입니다.</div></div>
+        </div>
+      </article>
+
+      <article class="manual-section" id="remaining">
+        <button class="section-toggle" type="button" aria-expanded="false" aria-controls="remaining-content">
+          <span class="section-number">13</span>
+          <span class="section-title-group">
+            <span class="section-kicker">CARD COUNT</span>
+            <span class="section-title">남은 카드</span>
+          </span>
+          <span class="toggle-mark" aria-hidden="true">+</span>
+        </button>
+        <div class="section-content" id="remaining-content" hidden>
+          <div class="prose">
+        <div class="flow-box"><span>전체 <strong>18장</strong></span><span>제1막 전체 공개 <strong>10장</strong></span><span>제2막 비공개 확인 <strong>5장</strong></span><span>끝까지 미확인 <strong>3장</strong></span></div>
+        <p>마지막까지 확인되지 않은 3장은 게임 종료 전까지 볼 수 없습니다.</p>
+        <p>카드 선택 자체도 추리의 일부입니다. 모든 조합이 같은 난도로 이어지는 것은 아니므로, 이미 나온 정보와 연결되는 장소와 소지품을 신중히 선택해야 합니다.</p></div>
+        </div>
+      </article>
+
+      <article class="manual-section" id="deduction-vote">
+        <button class="section-toggle" type="button" aria-expanded="false" aria-controls="deduction-vote-content">
+          <span class="section-number">14</span>
+          <span class="section-title-group">
+            <span class="section-kicker">FINAL · 10 MIN</span>
+            <span class="section-title">최종 추리와 투표</span>
+          </span>
+          <span class="toggle-mark" aria-hidden="true">+</span>
+        </button>
+        <div class="section-content" id="deduction-vote-content" hidden>
+          <div class="prose">
+        <h3>최종 추리 · 5분</h3>
+        <p>제2막 조사 / 논의가 끝나면 최종 추리를 진행한다. 제한 시간은 5분이다. 이 시간에는 더 이상 카드를 선택하지 않는다. 플레이어들은 지금까지 나온 정보를 바탕으로 마지막 논의를 한다. 최종 추리가 끝나면 투표로 넘어간다.</p>
+        <h3>투표 · 5분</h3>
+        <p>김하준의 사망에 가장 직접적인 원인을 만들고, 그를 살릴 수 있었던 마지막 가능성을 끊은 <strong>‘최종 책임자’ 한 명</strong>을 지목합니다. 어느 인물도 이 기준에 해당하지 않고 순수한 사고사라고 판단한다면 ‘사고사’에 투표할 수 있습니다.</p>
+        <p>원한다면 투표 직전 각자 최종 추리를 1분 이내로 말합니다. 투표는 동시에 공개합니다.</p>
+        <div class="rule-callout">동률이면 동률 대상만 두고 3분간 재논의한 뒤 재투표합니다. 다시 동률이면 제1막의 첫 조사 담당자가 동률 대상 중 하나를 최종 지목합니다.</div></div>
+        </div>
+      </article>
+
+      <article class="manual-section" id="ending-score">
+        <button class="section-toggle" type="button" aria-expanded="false" aria-controls="ending-score-content">
+          <span class="section-number">15</span>
+          <span class="section-title-group">
+            <span class="section-kicker">AFTER PLAY</span>
+            <span class="section-title">엔딩과 점수</span>
+          </span>
+          <span class="toggle-mark" aria-hidden="true">+</span>
+        </button>
+        <div class="section-content" id="ending-score-content" hidden>
+          <div class="prose">
+        <h3>엔딩 확인</h3>
+        <ol class="numbered-list">
+          <li>최종 지목 대상에 해당하는 엔딩을 읽습니다.</li>
+          <li>반드시 ‘사건의 진실’과 ‘주요 단서 해설’을 이어서 읽습니다.</li>
+          <li>각자 숨긴 비밀, 제2막에서 확인한 카드, 공개되지 않은 개인 소지품을 자유롭게 밝히며 사건을 되짚습니다.</li>
+        </ol>
+        <h3>점수 계산 · 선택 규칙</h3>
+        <p>점수는 사건의 진실을 확인한 뒤 각 설정서의 목적을 기준으로 계산합니다.</p>
+        <p>‘특정 인물에게 핵심 비밀 두 가지가 모두 들키지 않는다’는 목표는 두 비밀이 모두 정확히 간파되었을 때만 실패합니다. 상대가 0개 또는 1개만 알아냈다면 성공입니다. 문장을 그대로 맞힐 필요는 없지만, 비밀이 사건에서 어떤 의미였는지 설명할 수 있어야 ‘간파’로 인정합니다.</p>
+        <p>가장 높은 점수를 얻은 플레이어가 ‘최고 추리자’입니다. 동점은 공동 우승입니다.</p></div>
+        </div>
+      </article>
+
+      <article class="manual-section" id="important-rules">
+        <button class="section-toggle" type="button" aria-expanded="false" aria-controls="important-rules-content">
+          <span class="section-number">16</span>
+          <span class="section-title-group">
+            <span class="section-kicker">QUICK RULES</span>
+            <span class="section-title">진행 중 주의사항</span>
+          </span>
+          <span class="toggle-mark" aria-hidden="true">+</span>
+        </button>
+        <div class="section-content" id="important-rules-content" hidden>
+          <div class="prose">
+        <ul class="manual-list">
+          <li>설정서와 비공개 카드는 직접 보여주지 않습니다.</li>
+          <li>공개 카드의 존재와 객관적 문구는 부정할 수 없습니다. 해석과 책임은 얼마든지 다툴 수 있습니다.</li>
+          <li>새로운 인물, 통로, 물건, 초자연 현상을 즉석에서 만들지 않습니다.</li>
+          <li>자신의 비밀을 숨길 수 있지만, 게임 밖의 개인정보나 실제 경험을 연기에 끌어오지 않습니다.</li>
+          <li>투표는 ‘가장 수상한 사람’이 아니라 사망의 결정적 흐름을 만든 최종 책임자를 고르는 절차입니다.</li>
+        </ul></div>
+        </div>
+      </article></div>
+    <section class="no-results" id="noResults" hidden><strong>검색 결과가 없습니다.</strong><p>다른 단어로 검색하거나 검색어를 지워 주세요.</p></section>
+    <footer class="site-footer"><strong>똑... 똑... 똑...</strong><p>공개용 게임 설명서</p></footer>
+  </main>
+  <button class="back-to-top" id="backToTop" type="button" tabindex="-1" aria-hidden="true" aria-label="맨 위로 이동" title="맨 위로">↑</button>
+  <script src="script.js"></script>
+</body>
+</html>
