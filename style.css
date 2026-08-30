@@ -294,8 +294,11 @@ p { margin-bottom: 1em; }
 .story-block blockquote { margin: 20px 0; color: var(--green); font-size: 1.55rem; font-weight: 800; letter-spacing: .19em; text-align: center; }
 .ending-line { margin-top: 18px; padding-left: 13px; border-left: 4px solid var(--green); font-weight: 800; }
 
+.timeline-note { margin: 0 0 14px; padding: 12px 13px; color: var(--ink); background: rgba(22, 53, 44, .055); border-left: 4px solid var(--green); border-radius: 9px; font-size: .82rem; line-height: 1.6; }
+.timeline-note strong { color: var(--green); font-weight: 850; }
+.timeline-time > span { white-space: nowrap; }
 .timeline-list { position: relative; display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
-.timeline-list li { display: grid; grid-template-columns: 82px 1fr; gap: 12px; padding: 15px 13px; background: var(--paper); border: 1px solid var(--line); border-radius: 11px; }
+.timeline-list li { display: grid; grid-template-columns: 96px 1fr; gap: 12px; padding: 15px 13px; background: var(--paper); border: 1px solid var(--line); border-radius: 11px; }
 .timeline-time { color: var(--green); font-size: .84rem; font-weight: 850; line-height: 1.4; }
 .timeline-list .location { display: block; margin-bottom: 5px; color: var(--green-soft); font-size: .7rem; font-weight: 800; }
 .timeline-list p { margin: 0; font-size: .91rem; line-height: 1.65; }
@@ -354,7 +357,7 @@ button:focus-visible, a:focus-visible { outline: 3px solid #B76A2E; outline-offs
   .control-button--guide { min-width: 92px; }
   .control-button--map { min-width: 44px; padding-inline: 6px; }
   .control-button--toc { min-width: 50px; }
-  .timeline-list li { grid-template-columns: 69px 1fr; gap: 9px; padding-inline: 10px; }
+  .timeline-list li { grid-template-columns: 76px 1fr; gap: 9px; padding-inline: 10px; }
   .secret-list article { grid-template-columns: 54px 1fr; gap: 9px; padding-inline: 11px; }
 }
 
