@@ -20,51 +20,36 @@
   const SCROLL_KEY = "ttok-ttok-ttok-manual-scroll-position";
   const OPEN_KEY = "ttok-ttok-ttok-manual-open-sections";
 
-  const safeLocalGet = (key) => {
-    try { return localStorage.getItem(key); } catch { return null; }
-  };
-
-  const safeLocalSet = (key, value) => {
-    try { localStorage.setItem(key, value); } catch { /* local file privacy mode */ }
-  };
-
-  const safeSessionGet = (key) => {
-    try { return sessionStorage.getItem(key); } catch { return null; }
-  };
-
-  const safeSessionSet = (key, value) => {
-    try { sessionStorage.setItem(key, value); } catch { /* local file privacy mode */ }
-  };
-
-  const getScrollTop = () =>
-    window.scrollY || document.documentElement.scrollTop || document.body.scrollTop || 0;
-
-  const scrollPageTo = (top, behavior = "smooth") => {
-    const destination = Math.max(0, Math.round(top));
-    const reducedMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const supportsSmooth = "scrollBehavior" in document.documentElement.style;
-    const mode = behavior === "auto" || reducedMotion || !supportsSmooth ? "auto" : "smooth";
-
-    if (mode === "auto") {
-      const previousBehavior = document.documentElement.style.scrollBehavior;
-      document.documentElement.style.scrollBehavior = "auto";
-      window.scrollTo(0, destination);
-      document.documentElement.scrollTop = destination;
-      document.body.scrollTop = destination;
-      requestAnimationFrame(() => { document.documentElement.style.scrollBehavior = previousBehavior; });
-      return;
-    }
-
-    if (supportsSmooth) {
-      window.scrollTo({ top: destination, left: 0, behavior: mode });
-    } else {
-      window.scrollTo(0, destination);
-      document.documentElement.scrollTop = destination;
-      document.body.scrollTop = destination;
+  const getStorage = (name) => {
+    try {
+      return window[name];
+    } catch {
+      return null;
     }
   };
 
-  const storedFont = Number(safeLocalGet(FONT_KEY));
+  const localStore = getStorage("localStorage");
+  const sessionStore = getStorage("sessionStorage");
+
+  const safeGet = (storage, key) => {
+    if (!storage) return null;
+    try {
+      return storage.getItem(key);
+    } catch {
+      return null;
+    }
+  };
+
+  const safeSet = (storage, key, value) => {
+    if (!storage) return;
+    try {
+      storage.setItem(key, value);
+    } catch {
+      // 저장이 차단된 환경에서도 읽기 기능은 계속 동작한다.
+    }
+  };
+
+  const storedFont = Number(safeGet(localStore, FONT_KEY));
   let currentFont =
     Number.isFinite(storedFont) && storedFont >= MIN_FONT && storedFont <= MAX_FONT
       ? storedFont
@@ -72,9 +57,7 @@
 
   const applyFont = () => {
     root.style.setProperty("--body-size", `${currentFont}px`);
-    safeLocalSet(FONT_KEY, String(currentFont));
-    fontDown.disabled = currentFont <= MIN_FONT;
-    fontUp.disabled = currentFont >= MAX_FONT;
+    safeSet(localStore, FONT_KEY, String(currentFont));
   };
 
   const saveOpenSections = () => {
@@ -82,7 +65,7 @@
       .filter((section) => section.querySelector(".section-toggle").getAttribute("aria-expanded") === "true")
       .map((section) => section.id);
 
-    safeLocalSet(OPEN_KEY, JSON.stringify(openIds));
+    safeSet(localStore, OPEN_KEY, JSON.stringify(openIds));
   };
 
   const setSectionOpen = (section, shouldOpen, shouldSave = true) => {
@@ -142,14 +125,6 @@
     }
   });
 
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && quickNav.classList.contains("is-open")) {
-      quickNav.classList.remove("is-open");
-      menuToggle.setAttribute("aria-expanded", "false");
-      menuToggle.focus();
-    }
-  });
-
   expandAll.addEventListener("click", () => {
     sections.forEach((section) => {
       if (!section.hidden) setSectionOpen(section, true, false);
@@ -171,7 +146,7 @@
     let savedOpenIds = null;
 
     try {
-      savedOpenIds = JSON.parse(safeLocalGet(OPEN_KEY));
+      savedOpenIds = JSON.parse(safeGet(localStore, OPEN_KEY));
     } catch {
       savedOpenIds = null;
     }
@@ -213,32 +188,32 @@
   searchInput.addEventListener("input", runSearch);
 
   const updateScrollUI = () => {
-    const scrollTop = getScrollTop();
+    const scrollTop = window.scrollY;
     const scrollable = document.documentElement.scrollHeight - window.innerHeight;
     const ratio = scrollable > 0 ? Math.min(1, Math.max(0, scrollTop / scrollable)) : 0;
 
     progress.style.width = `${ratio * 100}%`;
-    const isVisible = scrollTop > 700;
-    backToTop.classList.toggle("is-visible", isVisible);
-    backToTop.setAttribute("aria-hidden", String(!isVisible));
-    backToTop.tabIndex = isVisible ? 0 : -1;
-    safeSessionSet(SCROLL_KEY, String(scrollTop));
+    const shouldShowBackToTop = scrollTop > 700;
+    backToTop.classList.toggle("is-visible", shouldShowBackToTop);
+    backToTop.tabIndex = shouldShowBackToTop ? 0 : -1;
+    backToTop.setAttribute("aria-hidden", String(!shouldShowBackToTop));
+    safeSet(sessionStore, SCROLL_KEY, String(scrollTop));
   };
 
   window.addEventListener("scroll", updateScrollUI, { passive: true });
 
   backToTop.addEventListener("click", () => {
-    scrollPageTo(0, "auto");
+    window.scrollTo({ top: 0, behavior: "smooth" });
   });
 
   applyFont();
   restoreOpenState();
   updateScrollUI();
 
-  const savedPosition = Number(safeSessionGet(SCROLL_KEY));
+  const savedPosition = Number(safeGet(sessionStore, SCROLL_KEY));
   if (Number.isFinite(savedPosition) && savedPosition > 0 && !location.hash) {
     requestAnimationFrame(() => {
-      scrollPageTo(savedPosition, "auto");
+      window.scrollTo({ top: savedPosition, behavior: "auto" });
     });
   }
 })();
