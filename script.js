@@ -14,8 +14,6 @@
   const footerTopLink = document.getElementById("footerTopLink");
   const gameGuideLink = document.getElementById("gameGuideLink");
   const progress = document.getElementById("readingProgress");
-  const copyButton = document.getElementById("copyStatement");
-  const copyStatus = document.getElementById("copyStatus");
   const fontDown = document.getElementById("fontDown");
   const fontUp = document.getElementById("fontUp");
   const mapModal = document.getElementById("mapModal");
@@ -24,6 +22,9 @@
   const mapBackdrop = document.getElementById("mapBackdrop");
   const mapViewport = document.getElementById("mapViewport");
   const mapImage = document.getElementById("mapImage");
+  const mapTitle = document.getElementById("mapTitle");
+  const mapCounter = document.getElementById("mapCounter");
+  const mapThumbnails = Array.from(document.querySelectorAll(".map-thumbnail"));
   const mapZoomOut = document.getElementById("mapZoomOut");
   const mapZoomIn = document.getElementById("mapZoomIn");
   const mapReset = document.getElementById("mapReset");
@@ -39,6 +40,159 @@
   let mapLastFocused = null;
   let mapZoomIndex = 0;
   const mapZoomLevels = [100, 125, 150, 175, 200, 225, 250];
+
+  // Shared by the five character pages on the same origin. Do not version this
+  // key on routine updates: a player who has seen the guide should not see it again.
+  const tutorialSeenKey = "mukkuri-ddokddokddok-reader-tutorial-seen";
+  const tutorial = document.getElementById("readerTutorial");
+  const tutorialCard = document.getElementById("tutorialCard");
+  const tutorialSpotlight = document.getElementById("tutorialSpotlight");
+  const tutorialTitle = document.getElementById("tutorialTitle");
+  const tutorialDescription = document.getElementById("tutorialDescription");
+  const tutorialCounter = document.getElementById("tutorialCounter");
+  const tutorialPrevious = document.getElementById("tutorialPrevious");
+  const tutorialNext = document.getElementById("tutorialNext");
+  const tutorialClose = document.getElementById("tutorialClose");
+  const tutorialSteps = [
+    {
+      targets: [gameGuideLink],
+      title: "게임 설명서",
+      description: "진행 순서나 규칙이 헷갈리면 여기서 다시 확인하세요. 설명서에서 돌아오면 읽던 위치로 이어집니다."
+    },
+    {
+      targets: [fontDown, fontUp],
+      title: "가− · 가＋ 글자 크기",
+      description: "가−를 누르면 글자가 작아지고, 가＋를 누르면 커집니다. 읽기 편한 크기로 맞춰 주세요."
+    },
+    {
+      targets: [mapOpen],
+      title: "MAP · 지도와 침대 배치",
+      description: "수련원 지도와 수련생방 침대 배치도를 볼 수 있어요. 아래 작은 미리보기 두 개 중 원하는 그림을 누르면 바뀝니다. 선택한 그림에는 체크 표시가 생겨요. ＋·−로 확대·축소하고, 맞춤을 누르면 처음 크기로 돌아옵니다."
+    },
+    {
+      targets: [tocOpen],
+      title: "목차",
+      description: "그날 밤의 행동, 핵심 비밀, 첫 진술 등 원하는 항목으로 바로 이동합니다. 이제 설정서를 읽어 주세요."
+    }
+  ];
+  let tutorialActive = false;
+  let tutorialStepIndex = 0;
+  let tutorialBackgroundState = [];
+  let tutorialPositionFrame = 0;
+
+  function positionTutorial() {
+    if (!tutorialActive) return;
+    const viewport = window.visualViewport;
+    const viewLeft = viewport ? viewport.offsetLeft : 0;
+    const viewTop = viewport ? viewport.offsetTop : 0;
+    const viewWidth = viewport ? viewport.width : document.documentElement.clientWidth;
+    const viewHeight = viewport ? viewport.height : window.innerHeight;
+    const rects = tutorialSteps[tutorialStepIndex].targets.map((element) => element.getBoundingClientRect());
+    const left = Math.min(...rects.map((rect) => rect.left)) - 4;
+    const top = Math.min(...rects.map((rect) => rect.top)) - 4;
+    const right = Math.max(...rects.map((rect) => rect.right)) + 4;
+    const bottom = Math.max(...rects.map((rect) => rect.bottom)) + 4;
+    Object.assign(tutorialSpotlight.style, {
+      left: `${left}px`, top: `${top}px`,
+      width: `${right - left}px`, height: `${bottom - top}px`
+    });
+    const width = Math.min(380, viewWidth - 24);
+    const cardLeft = Math.max(viewLeft + 12, Math.min((left + right - width) / 2, viewLeft + viewWidth - width - 12));
+    const cardTop = Math.max(viewTop + 12, bottom + 14);
+    Object.assign(tutorialCard.style, {
+      width: `${width}px`, left: `${cardLeft}px`, top: `${cardTop}px`,
+      maxHeight: `${Math.max(100, viewTop + viewHeight - cardTop - 12)}px`
+    });
+  }
+
+  function queueTutorialPosition() {
+    if (!tutorialActive || tutorialPositionFrame) return;
+    tutorialPositionFrame = requestAnimationFrame(() => {
+      tutorialPositionFrame = 0;
+      positionTutorial();
+    });
+  }
+
+  function renderTutorialStep() {
+    const step = tutorialSteps[tutorialStepIndex];
+    tutorialTitle.textContent = step.title;
+    tutorialDescription.textContent = step.description;
+    tutorialCounter.textContent = `${tutorialStepIndex + 1} / ${tutorialSteps.length}`;
+    tutorialPrevious.disabled = tutorialStepIndex === 0;
+    tutorialNext.textContent = tutorialStepIndex === tutorialSteps.length - 1 ? "설정서 읽기" : "다음";
+    tutorialCard.querySelector(".reader-tutorial__copy").scrollTop = 0;
+    positionTutorial();
+  }
+
+  function finishTutorial() {
+    if (!tutorialActive) return;
+    tutorialActive = false;
+    tutorial.hidden = true;
+    body.classList.remove("is-tutorial");
+    tutorialBackgroundState.forEach(({ element, inert, ariaHidden }) => {
+      element.toggleAttribute("inert", inert);
+      if (ariaHidden === null) element.removeAttribute("aria-hidden");
+      else element.setAttribute("aria-hidden", ariaHidden);
+    });
+    tutorialBackgroundState = [];
+    window.removeEventListener("resize", queueTutorialPosition);
+    if (window.visualViewport) {
+      window.visualViewport.removeEventListener("resize", queueTutorialPosition);
+      window.visualViewport.removeEventListener("scroll", queueTutorialPosition);
+    }
+    cancelAnimationFrame(tutorialPositionFrame);
+    tutorialPositionFrame = 0;
+    mainContent.focus({ preventScroll: true });
+    updateReadingState();
+  }
+
+  function startTutorialIfNeeded() {
+    if (tutorialActive || safeGet(tutorialSeenKey) === "1" || safeSessionGet(tutorialSeenKey) === "1") return;
+    // Remember the first display, including dismissal or a reload mid-guide.
+    safeSet(tutorialSeenKey, "1");
+    safeSessionSet(tutorialSeenKey, "1");
+    tutorialActive = true;
+    tutorialStepIndex = 0;
+    scrollPageTo(0, "auto");
+    tutorial.hidden = false;
+    body.classList.add("is-tutorial");
+    renderTutorialStep();
+    tutorialNext.focus({ preventScroll: true });
+    tutorialBackgroundState = Array.from(body.children)
+      .filter((element) => element !== tutorial)
+      .map((element) => ({ element, inert: element.hasAttribute("inert"), ariaHidden: element.getAttribute("aria-hidden") }));
+    tutorialBackgroundState.forEach(({ element }) => {
+      element.setAttribute("inert", "");
+      element.setAttribute("aria-hidden", "true");
+    });
+    window.addEventListener("resize", queueTutorialPosition);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", queueTutorialPosition);
+      window.visualViewport.addEventListener("scroll", queueTutorialPosition);
+    }
+    queueTutorialPosition();
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(queueTutorialPosition).catch(() => {});
+  }
+
+  tutorialPrevious.addEventListener("click", () => {
+    if (tutorialStepIndex > 0) {
+      tutorialStepIndex -= 1;
+      renderTutorialStep();
+      // A disabled Previous button cannot retain keyboard focus on step one.
+      if (tutorialStepIndex === 0) tutorialNext.focus({ preventScroll: true });
+    }
+  });
+  tutorialNext.addEventListener("click", () => {
+    if (tutorialStepIndex === tutorialSteps.length - 1) finishTutorial();
+    else {
+      tutorialStepIndex += 1;
+      renderTutorialStep();
+    }
+  });
+  tutorialClose.addEventListener("click", finishTutorial);
+  window.addEventListener("pageshow", (event) => {
+    if (event.persisted && tutorialActive) finishTutorial();
+  });
 
   function safeGet(key) {
     try { return localStorage.getItem(key); } catch (_) { return null; }
@@ -183,6 +337,18 @@
 
   function resetMapView() { mapZoomIndex = 0; applyMapZoom(false); }
 
+  function selectMapImage(button) {
+    if (button.getAttribute("aria-pressed") === "true") return;
+    mapThumbnails.forEach((thumbnail) => {
+      thumbnail.setAttribute("aria-pressed", String(thumbnail === button));
+    });
+    mapTitle.textContent = button.dataset.mapTitle;
+    mapCounter.textContent = `MAP ${mapThumbnails.indexOf(button) + 1} / ${mapThumbnails.length}`;
+    mapImage.alt = button.dataset.mapAlt;
+    mapImage.src = button.dataset.mapSrc;
+    resetMapView();
+  }
+
   function openMap() {
     mapLastFocused = document.activeElement;
     mapModal.classList.add("is-open");
@@ -247,6 +413,7 @@
 
   acknowledgeButton.addEventListener("click", function () {
     unlockReader();
+    startTutorialIfNeeded();
   });
 
   fontDown.addEventListener("click", function () {
@@ -275,8 +442,21 @@
   mapZoomOut.addEventListener("click", function () { if (mapZoomIndex > 0) { mapZoomIndex -= 1; applyMapZoom(true); } });
   mapZoomIn.addEventListener("click", function () { if (mapZoomIndex < mapZoomLevels.length - 1) { mapZoomIndex += 1; applyMapZoom(true); } });
   mapReset.addEventListener("click", resetMapView);
+  mapThumbnails.forEach((button) => {
+    button.addEventListener("click", () => selectMapImage(button));
+  });
+  mapImage.addEventListener("load", () => {
+    if (mapModal.classList.contains("is-open")) applyMapZoom(false);
+  });
 
   document.addEventListener("keydown", function (event) {
+    if (tutorialActive) {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        finishTutorial();
+      } else if (event.key === "Tab") trapModalFocus(tutorial, event);
+      return;
+    }
     if (event.key === "Escape") {
       if (mapModal.classList.contains("is-open")) { closeMap(true); return; }
       if (toc.classList.contains("is-open")) closeToc(true);
@@ -292,26 +472,6 @@
   gameGuideLink.addEventListener("click", function () {
     safeSessionSet(readerStateKey, "1");
     safeSessionSet(readerScrollKey, String(getScrollTop()));
-  });
-
-  copyButton.addEventListener("click", async function () {
-    const text = document.getElementById("statementText").innerText.trim();
-    try {
-      await navigator.clipboard.writeText(text);
-      copyStatus.textContent = "첫 진술을 복사했습니다.";
-    } catch (_) {
-      const area = document.createElement("textarea");
-      area.value = text;
-      area.setAttribute("readonly", "");
-      area.style.position = "fixed";
-      area.style.opacity = "0";
-      document.body.appendChild(area);
-      area.select();
-      const copied = document.execCommand("copy");
-      area.remove();
-      copyStatus.textContent = copied ? "첫 진술을 복사했습니다." : "길게 눌러 직접 복사해 주세요.";
-    }
-    window.setTimeout(function () { copyStatus.textContent = ""; }, 2500);
   });
 
   if ("IntersectionObserver" in window) {

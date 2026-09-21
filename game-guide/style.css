@@ -965,3 +965,20 @@ button, input { font: inherit; }
   margin-top: 7px;
   line-height: 1.7;
 }
+
+/* 2026-09-20: 핵심 규칙. 색상뿐 아니라 제목/굵기/기호로도 구분한다. */
+.rules-at-a-glance{background:#fffaf0;border:2px solid #16352c;border-radius:16px;padding:22px;margin:24px 0;overflow-wrap:anywhere}
+.rules-at-a-glance h2{font-size:1.35em;line-height:1.45;margin:0 0 18px;color:#16352c}
+.rule-eyebrow{font-weight:800;color:#6c4812;margin:0 0 7px}
+.essential-rule{border-top:1px solid #d4cdbc;padding:14px 0}
+.essential-rule:first-of-type{border-top:0;padding-top:0}
+.essential-rule:last-child{padding-bottom:0}
+.essential-rule>strong{display:block;font-size:1.08em;font-weight:800;margin-bottom:5px;color:#16352c}
+.essential-rule p,.rule-alert p{margin:6px 0 0;line-height:1.8}
+mark{background:#fae4a6;color:#352708;padding:.05em .2em;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.rule-alert{border:2px solid #8a5618;background:#fff3d8;color:#332711;border-radius:12px;padding:17px;margin:20px 0;overflow-wrap:anywhere}
+.rule-alert>strong{display:block;font-size:1.08em;font-weight:800}
+.rule-alert--private{border-color:#1d4ca6;background:#edf3ff;color:#142746}
+.prose strong,.prose b{font-weight:800}
+@media(max-width:400px){.rules-at-a-glance{padding:16px}.rule-alert{padding:14px}}
+@media print{.rules-at-a-glance,.rule-alert{break-inside:avoid}mark{border-bottom:1px solid #352708}}
