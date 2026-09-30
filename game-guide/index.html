@@ -9,7 +9,7 @@
   <title>똑... 똑... 똑... | 게임 설명서</title>
   <meta name="description" content="5인용 GM 없는 머더 미스터리 《똑... 똑... 똑...》 공개용 모바일 게임 설명서">
   <link rel="stylesheet" href="style.css?v=feedback-20260920">
-  <link rel="stylesheet" href="story-video.css?v=20260930-controls2">
+  <link rel="stylesheet" href="story-video.css?v=20260930-ux3">
 </head>
 <body>
   <a class="character-return" href="../index.html?from=guide" aria-label="캐릭터 설정서로 돌아가기">← 캐릭터 설정서</a>
@@ -513,28 +513,46 @@
         <div><p>똑... 똑... 똑...</p><h2 id="storyVideoTitle">이야기의 배경</h2></div>
         <button class="story-video-close" id="storyVideoClose" type="button" aria-label="영상 닫기" autofocus>닫기 ×</button>
       </div>
-      <div class="story-video-screen">
+      <div class="story-video-screen" id="storyVideoScreen" aria-busy="false">
         <video class="story-video-player" id="storyVideo" playsinline preload="none" aria-label="똑똑똑 이야기의 배경 영상">
           이 브라우저에서는 영상을 재생할 수 없습니다. 설명서의 배경 이야기를 읽어 주세요.
         </video>
+        <div class="story-video-loading" id="storyVideoLoading" role="status" aria-live="polite" hidden>
+          <div class="story-video-loading-mark" aria-hidden="true"><span></span><span></span><span></span></div>
+          <p>영상을 불러오는 중입니다.</p>
+        </div>
       </div>
       <div class="story-video-footer">
-        <p class="story-video-status" id="storyVideoStatus" role="status" aria-live="polite"></p>
-        <input class="story-video-seek" id="storyVideoSeek" type="range" min="0" max="1" step="1" value="0" aria-label="영상 재생 위치" aria-valuetext="0:00 / --:--" disabled>
-        <div class="story-video-controls" role="group" aria-label="영상 재생 조작">
-          <button class="story-video-control" id="storyVideoPlay" type="button" aria-label="재생" title="재생" disabled>
+        <input class="story-video-range story-video-seek" id="storyVideoSeek" type="range" min="0" max="1" step="1" value="0" aria-label="영상 재생 위치" aria-valuetext="0:00 / --:--" disabled>
+        <div class="story-video-transport" role="group" aria-label="영상 재생 조작">
+          <button class="story-video-control story-video-play" id="storyVideoPlay" type="button" aria-label="재생" title="재생">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path class="story-video-play-icon" d="M7 3.5v17L21 12z"/><g class="story-video-pause-icon"><rect x="5" y="4" width="5" height="16" rx="1"/><rect x="14" y="4" width="5" height="16" rx="1"/></g></svg>
+            <span id="storyVideoPlayLabel">재생</span>
           </button>
           <div class="story-video-time" aria-label="현재 시간 및 전체 길이"><span id="storyVideoCurrentTime">0:00</span><span aria-hidden="true">/</span><span id="storyVideoDuration">--:--</span></div>
-          <button class="story-video-control" id="storyVideoMute" type="button" aria-label="음소거" aria-pressed="false" title="음소거">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4 6 8H3v8h3l5 4z"/><g class="story-video-sound-icon"><path d="M15 8a6 6 0 0 1 0 8M18 5a10 10 0 0 1 0 14"/></g><g class="story-video-muted-icon"><path d="m16 9 6 6m0-6-6 6"/></g></svg>
-          </button>
           <button class="story-video-fullscreen" id="storyVideoFullscreen" type="button" aria-pressed="false" disabled>전체화면</button>
         </div>
+        <div class="story-video-options" role="group" aria-label="음량과 재생 속도">
+          <div class="story-video-volume-group">
+            <button class="story-video-control story-video-mute" id="storyVideoMute" type="button" aria-label="음소거" aria-pressed="false" title="음소거">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 4 6 8H3v8h3l5 4z"/><g class="story-video-sound-icon"><path d="M15 8a6 6 0 0 1 0 8M18 5a10 10 0 0 1 0 14"/></g><g class="story-video-muted-icon"><path d="m16 9 6 6m0-6-6 6"/></g></svg>
+            </button>
+            <input class="story-video-range story-video-volume" id="storyVideoVolume" type="range" min="0" max="100" step="1" value="100" aria-label="영상 음량" aria-valuetext="100%">
+            <output class="story-video-volume-value" id="storyVideoVolumeValue" for="storyVideoVolume">100%</output>
+          </div>
+          <div class="story-video-speed-wrap">
+            <select class="story-video-speed" id="storyVideoSpeed" aria-label="재생 속도" title="재생 속도">
+              <option value="0.5">0.5배속</option><option value="0.75">0.75배속</option>
+              <option value="1" selected>1배속</option><option value="1.25">1.25배속</option>
+              <option value="1.5">1.5배속</option><option value="1.75">1.75배속</option><option value="2">2배속</option>
+            </select>
+          </div>
+        </div>
+        <p class="story-video-status" id="storyVideoStatus" role="status" aria-live="polite"></p>
       </div>
     </div>
   </dialog>
   <script src="story-video-config.js?v=20260930"></script>
-  <script src="story-video.js?v=20260930-controls2"></script>
+  <script src="story-video.js?v=20260930-ux3"></script>
 </body>
 </html>
